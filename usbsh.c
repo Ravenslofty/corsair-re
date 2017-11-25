@@ -12,9 +12,17 @@
 
 #define VENDOR_ID 0x1b1c
 
+#define CORSAIR_V3 1
+
+#ifdef CORSAIR_V3
+    #define IN_EP  0x81
+    #define OUT_EP  0x02
+#else
+    #define IN_EP 0x82
+    #define OUT_EP 0x03
+#endif
+
 #define PKLEN 64
-#define IN_EP  0x82
-#define OUT_EP  0x03
 #define URB_TIMEOUT 100
 
 static struct libusb_device_handle *handle = NULL;
@@ -186,6 +194,8 @@ int main(int argc, char ** argv)
     printf("DrvAttach0: %d\n", retval);
     retval = libusb_attach_kernel_driver(handle, 1);
     printf("DrvAttach1: %d\n", retval);
+    retval = libusb_attach_kernel_driver(handle, 2);
+    printf("DrvAttach2: %d\n", retval);
 
     libusb_close(handle);
 

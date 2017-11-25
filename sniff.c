@@ -52,6 +52,9 @@ static void init()
         printf("ConfSet: %d\n", retval);        
     }
     //Claim Interfaces
+    retval = libusb_claim_interface(handle, 0);
+    printf("If0Claim: %d\n", retval);
+
     retval = libusb_claim_interface(handle, 1);
     printf("If1Claim: %d\n", retval);
 
