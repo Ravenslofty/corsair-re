@@ -8,4 +8,5 @@ K70 RGB     URB Interrupt Answer: 0e 01 00 00 00 01 00 01 05 02 12 00 1c 1b 13 1
 K70 RGB     URB Interrupt Answer: 0e 01 00 00 01 01 00 01 04 02 11 00 1c 1b 13 1b 01 01 01 05 c0 ff 40 00 03 00 00 00 02 04 01 00 <zeroes>
 K70 RGB RF  URB Interrupt Answer: 0e 01 00 00 01 01 00 01 04 02 14 00 1c 1b 38 1b 01 01 01 05 c0 ff 40 00 03 00 00 00 02 44 02 02 <zeroes>
 Strafe RGB  URB Interrupt Answer: 0e 01 00 00 01 01 00 01 05 02 14 00 1c 1b 20 1b 01 01 01 08 c0 ff 40 00 03 00 00 00 02 04 01 02 <zeroes>
+Strafe RGB  URB Interrupt Answer: 0e 01 00 00 01 01 00 01 05 03 14 00 1c 1b 30 1b 01 01 01 08 c0 ff 40 00 03 00 00 00 02 04 01 02 <zeroes>
 K95 Plat    URB Interrupt Answer: 0e 01 00 00 01 01 00 01 07 01 04 00 1c 1b 2d 1b 01 01 00 00 c0 ff 40 00 03 00 00 00 00 00 00 00 <zeroes>
