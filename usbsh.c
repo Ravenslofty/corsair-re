@@ -12,23 +12,16 @@
 
 #define VENDOR_ID 0x1b1c
 
-#define CORSAIR_V3 1
-
-#ifdef CORSAIR_V3
-    #define IN_EP  0x81
-    #define OUT_EP  0x02
-#else
-    #define IN_EP 0x82
-    #define OUT_EP 0x03
-#endif
-
 #define PKLEN 64
 #define URB_TIMEOUT 100
 
-static struct libusb_device_handle *handle = NULL;
-static int product_id = 0x1b2e;
+struct libusb_device_handle *handle = NULL;
+int product_id = 0x1b2e;
 
-static void init()
+int input_endpoint = 0x82;
+int output_endpoint = 0x03;
+
+void init()
 {
     int retval;
     //Open device
@@ -48,7 +41,6 @@ static void init()
     printf("DrvDetach1: %d\n", retval);
 
     //Set config
-    /*retval = libusb_set_configuration(handle, 1);*/
     int bConf = -1;
     retval = libusb_get_configuration(handle, &bConf);
     printf("ConfGet: %d\n", retval);
@@ -65,9 +57,39 @@ static void init()
 
     retval = libusb_claim_interface(handle, 2);
     printf("If2Claim: %d\n", retval);
+
+    // Protocol version autodetect
+    libusb_config_descriptor* config;
+    libusb_get_config_descriptor(handle, 0, &config);
+
+    printf("Detecting protocol version... ");
+    int protover = 2;
+    switch (config->bNumInterfaces) {
+    case 2: // Version 3 has a HID endpoint, and a Corsair I/O endpoint.
+        printf("3 - support is beta.\n");
+        input_endpoint = 0x81;
+        output_endpoint = 0x02;
+        break;
+    case 3: // Version 2 has a HID endpoint, a Corsair IN and a Corsair OUT endpoint.
+        printf("2\n");
+        input_endpoint = 0x82;
+        output_endpoint = 0x03;
+        break;
+    case 4: // Version 1 we aren't quite sure of, but it has four endpoints.
+        printf("1 - support is beta.\n");
+        input_endpoint = 0x82;
+        output_endpoint = 0x03;
+        break;
+    default:
+        printf("unknown - this probably isn't supported.\n");
+        libusb_free_config_descriptor(config);
+        exit(1);
+    }
+
+    libusb_free_config_descriptor(config);
 }
 
-static int urb_interrupt(unsigned char * question, int verbose)
+int urb_interrupt(unsigned char * question, int verbose)
 {
     int retval, len;
     unsigned char answer[PKLEN];
@@ -77,7 +99,7 @@ static int urb_interrupt(unsigned char * question, int verbose)
         printf("%02x ", question[i]);
     printf("\n");
 
-    retval = libusb_interrupt_transfer(handle, OUT_EP, question, PKLEN, &len, URB_TIMEOUT);
+    retval = libusb_interrupt_transfer(handle, output_endpoint, question, PKLEN, &len, URB_TIMEOUT);
 
     if (retval < 0)
     {
@@ -85,7 +107,7 @@ static int urb_interrupt(unsigned char * question, int verbose)
             fprintf(stderr, "Interrupt write error %d\n", retval);
         return retval;
     }
-    retval = libusb_interrupt_transfer(handle, IN_EP, answer, PKLEN, &len, URB_TIMEOUT);
+    retval = libusb_interrupt_transfer(handle, input_endpoint, answer, PKLEN, &len, URB_TIMEOUT);
 
     if (retval < 0)
     {
