@@ -59,8 +59,8 @@ void init()
     printf("If2Claim: %d\n", retval);
 
     // Protocol version autodetect
-    libusb_config_descriptor* config;
-    libusb_get_config_descriptor(handle, 0, &config);
+    struct libusb_config_descriptor* config;
+    libusb_get_config_descriptor(libusb_get_device(handle), 0, &config);
 
     printf("Detecting protocol version... ");
     int protover = 2;
@@ -85,6 +85,8 @@ void init()
         libusb_free_config_descriptor(config);
         exit(1);
     }
+
+    printf("Using endpoints %x and %x for communication.\n", input_endpoint, output_endpoint);
 
     libusb_free_config_descriptor(config);
 }
@@ -174,7 +176,7 @@ int main(int argc, char ** argv)
     while (fgets(buf, 256, stdin) != NULL) {
         unsigned char packet[PKLEN] = {0};
 
-        char * ptr = &buf;
+        char * ptr = buf;
         int bytes, size;
 
         sscanf(ptr, "%u%n", &bytes, &size);
