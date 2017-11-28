@@ -27,6 +27,13 @@ if packet[20] == 0xc0:
     print("Type: Keyboard")
 elif packet[20] == 0xc1:
     print("Type: Mouse")
+
+    print("Lighting zones: ", end='')
+    for i in range(8):
+        if (1 << i) & packet[24]:
+            print("%d " % i, end='')
+    print()
+
 else:
     print("Type: Unknown")
 
