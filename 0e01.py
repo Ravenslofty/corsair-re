@@ -30,7 +30,8 @@ devices = {0x40: "K63",
             0x34: "GLAIVE RGB",
             0x3d: "K55 RGB",
             0x22: "KATAR",
-            0x3b: "MM800 RGB POLARIS"}
+            0x3b: "MM800 RGB POLARIS",
+            0x2a: "VOID RGB"}
 
 packet = [int("0x" + s, 16) for s in input().split(" ")]
 
