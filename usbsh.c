@@ -77,8 +77,8 @@ void init()
         break;
     case 4: // Version 1 we aren't quite sure of, but it has four endpoints.
         printf("1 - support is beta.\n");
-        input_endpoint = 0x82;
-        output_endpoint = 0x03;
+        input_endpoint = 0x84;
+        output_endpoint = 0x04;
         break;
     default:
         printf("unknown - this probably isn't supported.\n");
