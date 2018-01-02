@@ -36,27 +36,27 @@ void init()
     //libusb_set_auto_detach_kernel_driver(handle, 1);
     //Detach kernel driver:
     retval = libusb_detach_kernel_driver(handle, 0);
-    printf("DrvDetach0: %d\n", retval);
+    printf("DrvDetach0: %s\n", libusb_error_name(retval));
     retval = libusb_detach_kernel_driver(handle, 1);
-    printf("DrvDetach1: %d\n", retval);
+    printf("DrvDetach1: %s\n", libusb_error_name(retval));
 
     //Set config
     int bConf = -1;
     retval = libusb_get_configuration(handle, &bConf);
-    printf("ConfGet: %d\n", retval);
+    printf("ConfGet: %s\n", libusb_error_name(retval));
     printf("bConf: %d\n", bConf);
     if(bConf != 1)
     {
         printf("Setting config to 1");
         retval = libusb_set_configuration(handle, 1);
-        printf("ConfSet: %d\n", retval);        
+        printf("ConfSet: %s\n", libusb_error_name(retval));
     }
     //Claim Interfaces
     retval = libusb_claim_interface(handle, 1);
-    printf("If1Claim: %d\n", retval);
+    printf("If1Claim: %s\n", libusb_error_name(retval));
 
     retval = libusb_claim_interface(handle, 2);
-    printf("If2Claim: %d\n", retval);
+    printf("If2Claim: %s\n", libusb_error_name(retval));
 
     // Protocol version autodetect
     struct libusb_config_descriptor* config;
@@ -106,7 +106,7 @@ int urb_interrupt(unsigned char * question, int verbose)
     if (retval < 0)
     {
         if (verbose)
-            fprintf(stderr, "Interrupt write error %d\n", retval);
+            fprintf(stderr, "Interrupt write error: %s\n", libusb_error_name(retval));
         return retval;
     }
     retval = libusb_interrupt_transfer(handle, input_endpoint, answer, PKLEN, &len, URB_TIMEOUT);
@@ -114,12 +114,12 @@ int urb_interrupt(unsigned char * question, int verbose)
     if (retval < 0)
     {
         if (verbose)
-            fprintf(stderr, "Interrupt read error %d\n", retval);
+            fprintf(stderr, "Interrupt read error: %s\n", libusb_error_name(retval));
         return retval;
     }
 
     if (verbose && len < PKLEN)
-        fprintf(stderr, "Interrupt transfer short read (%d)\n", retval);
+        fprintf(stderr, "Interrupt transfer short read (%s)\n", libusb_error_name(retval));
 
     if (len == 0 && question[0] == 0x07) {
         return 0;
@@ -156,10 +156,10 @@ int main(int argc, char ** argv)
 
     //Init
     retval = libusb_init(NULL);
-    printf("Init: %d\n", retval);
+    printf("Init: %s\n", libusb_error_name(retval));
 
     retval = libusb_has_capability(LIBUSB_CAP_HAS_HOTPLUG);
-    printf("Hotplug: %d\n", retval);
+    printf("Hotplug: %s\n", libusb_error_name(retval));
 
     // Get Product ID.
     sscanf(argv[1], "%x", &product_id);
@@ -201,7 +201,7 @@ int main(int argc, char ** argv)
         int retval = urb_interrupt(packet, 1);
 
         // Retry if we lost the device.
-        if (retval == -4) {
+        if (retval == LIBUSB_ERROR_NO_DEVICE) {
             init();
             retval = urb_interrupt(packet, 1);
         }
@@ -215,11 +215,11 @@ int main(int argc, char ** argv)
 
     //Reattach
     retval = libusb_attach_kernel_driver(handle, 0);
-    printf("DrvAttach0: %d\n", retval);
+    printf("DrvAttach0: %s\n", libusb_error_name(retval));
     retval = libusb_attach_kernel_driver(handle, 1);
-    printf("DrvAttach1: %d\n", retval);
+    printf("DrvAttach1: %s\n", libusb_error_name(retval));
     retval = libusb_attach_kernel_driver(handle, 2);
-    printf("DrvAttach2: %d\n", retval);
+    printf("DrvAttach2: %s\n", libusb_error_name(retval));
 
     libusb_close(handle);
 
