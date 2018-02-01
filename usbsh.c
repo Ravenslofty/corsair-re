@@ -11,7 +11,7 @@
 #include <libusb-1.0/libusb.h>
 
 #define PKLEN 64
-#define URB_TIMEOUT 100
+#define URB_TIMEOUT 10
 
 #define debug(...) do { if (verbose) { printf(__VA_ARGS__); } } while (0)
 #define error(...) do { fprintf(stderr, __VA_ARGS__); } while (0)
@@ -141,19 +141,17 @@ int urb_interrupt(unsigned char * question)
     retval = libusb_interrupt_transfer(handle, output_endpoint, question, PKLEN, &len, URB_TIMEOUT);
 
     if (retval < 0) {
-        if (verbose)
-            error("Interrupt write error: %s\n", libusb_error_name(retval));
+        error("Interrupt write error: %s\n", libusb_error_name(retval));
         return retval;
     }
     retval = libusb_interrupt_transfer(handle, input_endpoint, answer, PKLEN, &len, URB_TIMEOUT);
 
     if (retval < 0) {
-        if (verbose)
-            error("Interrupt read error: %s\n", libusb_error_name(retval));
+        error("Interrupt read error: %s\n", libusb_error_name(retval));
         return retval;
     }
 
-    if (verbose && len < PKLEN)
+    if (len < PKLEN)
         error("Interrupt transfer short read (%s)\n", libusb_error_name(retval));
 
     if (protocol != PROTO_OVERRIDE && len == 0 && question[0] == 0x07) {
