@@ -83,7 +83,7 @@ void set_endpoints()
         output_endpoint = 0x04;
     }
 
-    debug("Using endpoints %x and %x for communication.\n", input_endpoint, output_endpoint);
+    debug("Using endpoints %lx and %lx for communication.\n", input_endpoint, output_endpoint);
 
     libusb_free_config_descriptor(config);
 } 
