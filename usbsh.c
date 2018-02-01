@@ -161,12 +161,10 @@ int urb_interrupt(unsigned char * question)
     }
 
     if (len >= 0) {
-        if (verbose) {
-            debug("\nURB Interrupt Answer: ");
-            for(int i = 0; i < PKLEN; i++)
-                debug("%02x ", answer[i]);
-            debug("\n");
-        }
+        debug("\nURB Interrupt Answer: ");
+        for (int i = 0; i < PKLEN; i++)
+            printf("%02x ", answer[i]);
+        printf("\n");
         return 0;
     }
 
