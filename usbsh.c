@@ -180,7 +180,7 @@ void usage()
     error("-p\t\tUSB Product ID to connect to.\n");
     error("-v\t\tUSB Vendor ID to connect to.\n");
     error("\nOptional arguments:\n");
-    error("-1, -2, -3\t\tUse Corsair endpoints for protocols 1, 2 or 3.\n");
+    error("-1, -2, -3\tUse Corsair endpoints for protocols 1, 2 or 3.\n");
     error("-i\t\tUse this endpoint to receive from the USB device.\n");
     error("-o\t\tUse this endpoint to send to the USB device.\n");
     error("-V\t\tVerbose output.\n");
