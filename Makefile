@@ -1,3 +1,3 @@
 all:
 	gcc -o usbsh -Wall -O3 usbsh.c -lusb-1.0
-	sudo python ./snoop.py
+	sudo ./snoop.py > output.txt
