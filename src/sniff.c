@@ -19,7 +19,7 @@ int main(int argc, char ** argv)
         return 1;
     }
 
-    if (getuid() != 0) {
+    if (geteuid() != 0) {
         printf("You need to run this as root.\n");
         return 1;
     }
