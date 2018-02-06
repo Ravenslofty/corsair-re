@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
 
-# Check for superuser permissions.
-if [ $(id -u) != "0" ]; then
-    sudo $0
-fi
-
 # Build the tools.
 gcc -o usbsh -Wall -O3 usbsh.c -lusb-1.0
 gcc -o sniff -Wall -O3 sniff.c -lusb-1.0
@@ -21,7 +16,7 @@ mkdir -p output
 OIFS=$IFS
 IFS=$'\n'
 for dev in $devices; do
-    ./sniff $dev > output/$dev.txt
+    sudo ./sniff $dev > output/$dev.txt
 done
 
 IFS=$OIFS
