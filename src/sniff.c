@@ -45,15 +45,15 @@ int main(int argc, char ** argv)
     // Reset device.
     unsigned char reset[PKLEN] = { 0x07, 0x02, 0 };
 
-    printf("Please don't touch your device.\n");
-    printf("Will now reset the device.\n");
+    fprintf(stderr, "Please don't touch your device.\n");
+    fprintf(stderr, "Will now reset the device.\n");
     urb_interrupt(reset, 0);
 
     sleep(2);
 
     init();
 
-    printf("Will now begin.\n");
+    fprintf(stderr, "Will now begin.\n");
 
     //Send Interrupt
     unsigned char packet[PKLEN] = { 0x0e, 0x00, 0 };
