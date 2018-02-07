@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+if [ "$EUID" -ne 0 ]; then
+  echo "Please run as this as root (or use sudo)"
+  exit 1
+fi
+
 # Build the tools.
 gcc -o usbsh -Wall -O3 usbsh.c -lusb-1.0
 gcc -o sniff -Wall -O3 sniff.c -lusb-1.0
