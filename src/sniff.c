@@ -37,7 +37,7 @@ int main(int argc, char ** argv)
     sscanf(argv[1], "%lx", &product_id);
     vendor_id = 0x1b1c;
     verbose = 0;
-    silent = 1;
+    //silent = 1;
 
     // Initialise.
     init();
@@ -47,7 +47,7 @@ int main(int argc, char ** argv)
 
     fprintf(stderr, "Please don't touch your device.\n");
     fprintf(stderr, "Will now reset the device.\n");
-    urb_interrupt(reset, 0);
+    //urb_interrupt(reset, 0);
 
     sleep(2);
 
