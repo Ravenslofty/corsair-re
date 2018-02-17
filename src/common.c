@@ -73,11 +73,11 @@ void set_endpoints()
         }
 
         for (int i = 0; i < config->bNumInterfaces; i++) {
-            retval = libusb_detach_kernel_driver(handle, i);
+            int retval = libusb_detach_kernel_driver(handle, i);
             debug("DrvDetach%d: %s\n", i, libusb_error_name(retval));
     
             retval = libusb_claim_interface(handle, i);
-            debug("If%dClaim: %s\n", libusb_error_name(retval));
+            debug("If%dClaim: %s\n", i, libusb_error_name(retval));
         }
     }
 
