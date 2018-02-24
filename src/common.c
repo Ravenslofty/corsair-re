@@ -62,7 +62,7 @@ void set_endpoints()
             debug("2\n");
             protocol = PROTO_V2;
             break;
-        case 4: // Version 1 we aren't quite sure of, but it has four endpoints.
+        case 5: // Version 1 we aren't quite sure of, but it has five endpoints.
             debug("1 - support is beta.\n");
             protocol = PROTO_V1;
             break;
@@ -70,6 +70,14 @@ void set_endpoints()
             error("Failed to autodetect protocol; please file a bug.\n");
             libusb_free_config_descriptor(config);
             exit(1);
+        }
+
+        for (int i = 0; i < config->bNumInterfaces; i++) {
+            int retval = libusb_detach_kernel_driver(handle, i);
+            debug("DrvDetach%d: %s\n", i, libusb_error_name(retval));
+    
+            retval = libusb_claim_interface(handle, i);
+            debug("If%dClaim: %s\n", i, libusb_error_name(retval));
         }
     }
 
@@ -102,14 +110,6 @@ void init()
         exit(1);
     }
 
-    //Enable auto driver detach
-    //libusb_set_auto_detach_kernel_driver(handle, 1);
-    //Detach kernel driver:
-    retval = libusb_detach_kernel_driver(handle, 0);
-    debug("DrvDetach0: %s\n", libusb_error_name(retval));
-    retval = libusb_detach_kernel_driver(handle, 1);
-    debug("DrvDetach1: %s\n", libusb_error_name(retval));
-
     //Set config
     int bConf = -1;
     retval = libusb_get_configuration(handle, &bConf);
@@ -120,13 +120,6 @@ void init()
         retval = libusb_set_configuration(handle, 1);
         debug("ConfSet: %s\n", libusb_error_name(retval));
     }
-
-    // Claim Interfaces
-    retval = libusb_claim_interface(handle, 1);
-    debug("If1Claim: %s\n", libusb_error_name(retval));
-
-    retval = libusb_claim_interface(handle, 2);
-    debug("If2Claim: %s\n", libusb_error_name(retval));
 
     set_endpoints();
 }
