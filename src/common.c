@@ -17,6 +17,8 @@
 #define error(...) do { if (!silent) { fprintf(stderr, __VA_ARGS__); } } while (0)
 
 struct libusb_device_handle *handle = NULL;
+struct libusb_config_descriptor* config = NULL;
+uint8_t bNumInterfaces = 0;
 long vendor_id = 0;
 long product_id = 0;
 
@@ -44,16 +46,21 @@ void set_endpoints()
         return;
     }
 
+    // Claim Interfaces
+    libusb_get_active_config_descriptor(libusb_get_device(handle), &config);
+    bNumInterfaces = config->bNumInterfaces;
+    for (uint8_t i = 0; i < bNumInterfaces; i++) {
+        int retval = libusb_detach_kernel_driver(handle, i);
+        debug("DrvDetach%d: %s\n", i, libusb_error_name(retval));
+        
+        retval = libusb_claim_interface(handle, i);
+        debug("If%dClaim: %s\n", i, libusb_error_name(retval));
+    }
+
     // Protocol version autodetect
-    struct libusb_config_descriptor* config;
-    libusb_get_config_descriptor(libusb_get_device(handle), 0, &config);
-
     if (protocol == PROTO_AUTODETECT) {
-        struct libusb_config_descriptor* config;
-        libusb_get_config_descriptor(libusb_get_device(handle), 0, &config);
-
         debug("Detecting protocol version... ");
-        switch (config->bNumInterfaces) {
+        switch (bNumInterfaces) {
         case 2: // Version 3 has a HID endpoint, and a Corsair I/O endpoint.
             debug("3 - support is beta.\n");
             protocol = PROTO_V3;
@@ -70,14 +77,6 @@ void set_endpoints()
             error("Failed to autodetect protocol; please file a bug.\n");
             libusb_free_config_descriptor(config);
             exit(1);
-        }
-
-        for (int i = 0; i < config->bNumInterfaces; i++) {
-            int retval = libusb_detach_kernel_driver(handle, i);
-            debug("DrvDetach%d: %s\n", i, libusb_error_name(retval));
-    
-            retval = libusb_claim_interface(handle, i);
-            debug("If%dClaim: %s\n", i, libusb_error_name(retval));
         }
     }
 
@@ -120,8 +119,23 @@ void init()
         retval = libusb_set_configuration(handle, 1);
         debug("ConfSet: %s\n", libusb_error_name(retval));
     }
-
+    
     set_endpoints();
+}
+
+void deinit()
+{
+    int retval = 0;
+    for (uint8_t i = 0; i < bNumInterfaces; i++) {
+        retval = libusb_release_interface(handle, i);
+        debug("IfRelease%d: %s\n", i, libusb_error_name(retval));
+        retval = libusb_attach_kernel_driver(handle, i);
+        debug("DrvAttach%d: %s\n", i, libusb_error_name(retval));
+    }
+
+    libusb_close(handle);
+
+    libusb_exit(NULL);
 }
 
 int urb_interrupt(unsigned char * question, int unique)

@@ -36,11 +36,11 @@ int main(int argc, char ** argv)
     // Get Product ID.
     sscanf(argv[1], "%lx", &product_id);
     vendor_id = 0x1b1c;
-    verbose = 0;
+    verbose = 1;
     //silent = 1;
 
     // Initialise.
-    init();
+  /*  init();
 
     // Reset device.
     unsigned char reset[PKLEN] = { 0x07, 0x02, 0 };
@@ -49,8 +49,8 @@ int main(int argc, char ** argv)
     fprintf(stderr, "Will now reset the device.\n");
     //urb_interrupt(reset, 0);
 
-    sleep(2);
-
+    sleep(5);
+*/
     init();
 
     fprintf(stderr, "Will now begin.\n");
@@ -71,6 +71,11 @@ int main(int argc, char ** argv)
             else if (retval != -1000) {
                 break;
             }
+            else if (retval == LIBUSB_ERROR_IO)
+            {
+                deinit();
+                return -1;
+            }
             fflush(stdout);
             fflush(stderr);
         }
@@ -78,8 +83,10 @@ int main(int argc, char ** argv)
 
     fprintf(stderr, "\n");
 
+    deinit();
+    
     // Reset the device again and let the OS clean up.
-    urb_interrupt(reset, 0);
+    //urb_interrupt(reset, 0);
 
     return 0;
 }
