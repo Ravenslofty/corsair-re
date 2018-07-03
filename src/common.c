@@ -140,6 +140,8 @@ int urb_interrupt(unsigned char * question, int unique)
 
     retval = libusb_interrupt_transfer(handle, output_endpoint, question, PKLEN, &len, URB_TIMEOUT);
 
+    usleep(10*1000);
+
     if (retval < 0) {
         error("Interrupt write error: %s\n", libusb_error_name(retval));
         return retval;
