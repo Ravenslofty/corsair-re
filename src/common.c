@@ -11,7 +11,7 @@
 #include <libusb-1.0/libusb.h>
 
 #define PKLEN 64
-#define URB_TIMEOUT 10
+#define URB_TIMEOUT 100
 
 #define debug(...) do { if (verbose && !silent) { printf(__VA_ARGS__); } } while (0)
 #define error(...) do { if (!silent) { fprintf(stderr, __VA_ARGS__); } } while (0)
@@ -147,7 +147,7 @@ int urb_interrupt(unsigned char * question, int unique)
         return retval;
     }
 
-    if (protocol == PROTO_OVERRIDE || question[0] != 0x07 || question[0] != 0x7f) {
+    if (question[0] == 0x0e || question[0] == 0xff) {
         retval = libusb_interrupt_transfer(handle, input_endpoint, answer, PKLEN, &len, URB_TIMEOUT);
 
         if (retval < 0) {
