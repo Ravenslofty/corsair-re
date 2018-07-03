@@ -27,6 +27,7 @@ long input_endpoint = 0;
 long output_endpoint = 0;
 int verbose = 0; // Print debug messages.
 int silent = 0; // Silence error messages.
+int is_corsair = 0;
 
 void set_endpoints()
 {
@@ -79,6 +80,8 @@ void set_endpoints()
             retval = libusb_claim_interface(handle, i);
             debug("If%dClaim: %s\n", i, libusb_error_name(retval));
         }
+
+        is_corsair = 1;
     }
 
     if (protocol == PROTO_V3) {
@@ -141,17 +144,19 @@ int urb_interrupt(unsigned char * question, int unique)
         error("Interrupt write error: %s\n", libusb_error_name(retval));
         return retval;
     }
-    retval = libusb_interrupt_transfer(handle, input_endpoint, answer, PKLEN, &len, URB_TIMEOUT);
 
-    if (retval < 0) {
-        error("Interrupt read error: %s\n", libusb_error_name(retval));
-        return retval;
-    }
+    if (protocol == PROTO_OVERRIDE || question[0] != 0x07 || question[0] != 0x7f) {
+        retval = libusb_interrupt_transfer(handle, input_endpoint, answer, PKLEN, &len, URB_TIMEOUT);
 
-    if (len < PKLEN)
-        error("Interrupt transfer short read (%s)\n", libusb_error_name(retval));
+        if (retval < 0) {
+            error("Interrupt read error: %s\n", libusb_error_name(retval));
+            return retval;
+        }
 
-    if (protocol != PROTO_OVERRIDE && len == 0 && question[0] == 0x07) {
+        if (len < PKLEN) {
+            error("Interrupt transfer short read (%s)\n", libusb_error_name(retval));
+        }
+
         return 0;
     }
 
