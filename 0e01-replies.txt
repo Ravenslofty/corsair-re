@@ -5,6 +5,7 @@ Glaive RGB  URB Interrupt Answer: 0e 01 00 00 01 01 00 01 03 01 10 00 1c 1b 34 1
 Glaive RGB  URB Interrupt Answer: 0e 01 00 00 01 01 00 01 00 03 10 00 1c 1b 34 1b 01 01 01 30 c1 ff 40 01 46 00 01 01 00 00 00 00 00 00 00 00 01 00 00 01 00 00 02 01 02 01 aa 00 6c dc 02 00 00 00 00 00 00 00 00 00 00 00 00 00
 ScimitarRGB URB Interrupt Answer: 0e 01 00 00 01 01 00 01 04 02 02 00 1c 1b 1e 1b 01 01 01 30 c1 ff 40 03 5e 00 01 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 02 01 00 01 00 00 6c dc 02 00 00 00 00 00 00 00 00 00 00 00 00 00
 M65 RGB     URB Interrupt Answer: 0e 01 00 00 01 01 00 01 00 03 23 00 1c 1b 12 1b 01 01 01 05 c1 ff 40 03 15 00 01 01 00 00 01 01 00 01 <zeroes>
+DarkCoreRGB URB Interrupt Answer: 0e 01 00 00 01 01 00 01 33 00 01 03 1c 1b 35 1b 01 01 00 00 c1 ff 40 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00 00 02 00 aa 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 
 Keyboards:
 K70 RGB     URB Interrupt Answer: 0e 01 00 00 00 01 00 01 05 02 12 00 1c 1b 13 1b 01 01 01 06 c0 ff 40 00 03 00 00 00 02 04 00 00 <zeroes>
@@ -16,6 +17,11 @@ K95 Plat    URB Interrupt Answer: 0e 01 00 00 01 01 00 01 07 01 04 00 1c 1b 2d 1
 K95 Plat    URB Interrupt Answer: 0e 01 00 00 01 01 00 01 08 03 04 00 1c 1b 2d 1b 01 01 00 00 c0 ff 40 00 03 00 00 00 02 00 03 00 <zeroes>
 K95 RGB     URB Interrupt Answer: 0e 01 00 00 01 01 00 01 05 02 11 00 1c 1b 11 1b 01 01 03 06 c0 ff 40 01 03 00 00 00 02 44 00 00 <zeroes>
 K55 RGB     URB Interrupt Answer: 0e 01 00 00 01 01 00 01 06 30 02 00 1c 1b 3d 1b 01 01 01 30 c0 ff 40 00 03 00 00 00 01 00 00 00 <zeroes>
+Strafe NRGB URB Interrupt Answer: 0e 01 00 00 01 01 00 01 05 02 14 00 1c 1b 15 1b 01 01 01 08 c0 ff 40 01 02 00 00 00 02 44 01 00 <zeroes>
+K68 NRGB    URB Interrupt Answer: 0e 01 00 00 01 01 00 01 00 01 14 00 1c 1b 3f 1b 01 01 01 00 c0 ff 40 02 03 00 00 00 02 44 ff 00 <zeroes>
+K68 RGB     URB Interrupt Answer: 0e 01 00 00 01 01 00 01 02 01 01 00 1c 1b 4f 1b 01 01 00 00 c0 ff 40 00 03 00 00 00 02 00 03 02 <zeroes>
+K70 RGB LUX URB Interrupt Answer: 0e 01 00 00 01 01 00 01 05 02 14 00 1c 1b 33 1b 01 01 01 06 c0 ff 40 00 03 00 00 00 02 44 00 02 <zeroes>
+K65 RGB     URB Interrupt Answer: 0e 01 00 00 01 01 00 01 05 02 11 00 1c 1b 17 1b 01 01 01 06 c0 ff 40 03 03 00 00 00 02 04 00 00 <zeroes>
 
 Mousepads:
 Polaris RGB URB Interrupt Answer: 0e 01 00 00 00 01 00 00 02 01 03 00 1c 1b 3b 1b 08 00 00 00 c2 ff 40 00 00 00 00 00 00 00 00 00 <zeroes>
