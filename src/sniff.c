@@ -12,19 +12,60 @@
 
 #include "common.c" // Yes, I'm including the source code file for now.
 
-int main(int argc, char ** argv) 
-{
-    if (argc != 2) {
-        printf("Usage: %s <product ID>\n", argv[0]);
-        return 1;
-    }
+short should_reset = 0;
 
+void usage(char *cmd)
+{
+    error("Usage: %s <product ID>\n", cmd);
+    error("\nOptional arguments:\n");
+    error("\t -h\t\tPrint this help and exit.\n");
+    error("\t -r\t\tReset device before sniffing.\n");
+    error("\t -V\t\tVerbose output.\n");
+}
+
+int main(int argc, char ** argv)
+{
+    char c;
+    int retval;
+
+    // notify user of requested root permissions
     if (geteuid() != 0) {
         printf("You need to run this as root.\n");
         return 1;
     }
 
-    int retval;
+    // parse options
+    while ((c = getopt(argc, argv, ":hrV")) != -1)
+    {
+        switch (c)
+        {
+            case 'V':
+                verbose = 1;
+                silent = 0;
+                break;
+            case 'r':
+                should_reset = 1;
+                break;
+            case ':':
+                break;
+            // handle unknown options and fall through to help text handler
+            case '?':
+                error("Unknown option: -%c\n", optopt);
+            // print help text and fall through to default handler
+            case 'h':
+                usage(argv[0]);
+            // exit the program because of errors/help text printing
+            default:
+                exit(1);
+        }
+    }
+
+    if (optind >= argc)
+    {
+        error("Missing product ID.\n");
+        usage(argv[0]);
+        exit(1);
+    }
 
     //Init
     retval = libusb_init(NULL);
@@ -33,11 +74,9 @@ int main(int argc, char ** argv)
     retval = libusb_has_capability(LIBUSB_CAP_HAS_HOTPLUG);
     debug("Hotplug: %d\n", retval);
 
-    // Get Product ID.
-    sscanf(argv[1], "%lx", &product_id);
+    // Get Product ID. (first non-option element)
+    sscanf(argv[optind], "%lx", &product_id);
     vendor_id = 0x1b1c;
-    verbose = 0;
-    //silent = 1;
 
     // Initialise.
     init();
@@ -46,12 +85,22 @@ int main(int argc, char ** argv)
     unsigned char reset[PKLEN] = { 0x07, 0x02, 0 };
 
     fprintf(stderr, "Please don't touch your device.\n");
-    fprintf(stderr, "Will now reset the device.\n");
-    //urb_interrupt(reset, 0);
 
-    sleep(2);
+    // force reset of device
+    if (should_reset)
+    {
+        fprintf(stderr, "Will now reset the device.");
+        urb_interrupt(reset, 0);
 
-    init();
+        // simulate waiting time
+        sleep(1);
+        fprintf(stderr, ".");
+        sleep(1);
+        fprintf(stderr, ".");
+
+        // re-initialize the device after resetting
+        init();
+    }
 
     fprintf(stderr, "Will now begin.\n");
 
