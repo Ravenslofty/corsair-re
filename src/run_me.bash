@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if pgrep ckb-daemon > /dev/null; then
+if pgrep ckb.*-daemon > /dev/null; then
   echo 'Please ensure ckb-daemon is not running before executing this script'
   exit 1
 fi
