@@ -13,6 +13,8 @@ Keyboards:
 K70 RGB     URB Interrupt Answer: 0e 01 00 00 00 01 00 01 05 02 12 00 1c 1b 13 1b 01 01 01 06 c0 ff 40 00 03 00 00 00 02 04 00 00 <zeroes>
 K70 RGB     URB Interrupt Answer: 0e 01 00 00 01 01 00 01 04 02 11 00 1c 1b 13 1b 01 01 01 05 c0 ff 40 00 03 00 00 00 02 04 01 00 <zeroes>
 K70 RGB RF  URB Interrupt Answer: 0e 01 00 00 01 01 00 01 04 02 14 00 1c 1b 38 1b 01 01 01 05 c0 ff 40 00 03 00 00 00 02 44 02 02 <zeroes>
+K70 RGB LUX URB Interrupt Answer: 0e 01 00 00 01 01 00 01 05 02 14 00 1c 1b 33 1b 01 01 01 06 c0 ff 40 00 03 00 00 00 02 44 00 02 <zeroes>
+K70 RGB LUX URB Interrupt Answer: 0e 01 00 00 01 01 00 01 05 02 14 00 1c 1b 33 1b 01 01 01 06 c0 ff 40 00 03 00 00 00 02 04 00 02 <zeroes>
 Strafe RGB  URB Interrupt Answer: 0e 01 00 00 01 01 00 01 05 02 14 00 1c 1b 20 1b 01 01 01 08 c0 ff 40 00 03 00 00 00 02 04 01 02 <zeroes>
 Strafe RGB  URB Interrupt Answer: 0e 01 00 00 01 01 00 01 05 03 14 00 1c 1b 20 1b 01 01 01 08 c0 ff 40 00 03 00 00 00 02 04 01 02 <zeroes>
 K95 Plat    URB Interrupt Answer: 0e 01 00 00 01 01 00 01 07 01 04 00 1c 1b 2d 1b 01 01 00 00 c0 ff 40 00 03 00 00 00 00 00 00 00 <zeroes>
@@ -22,7 +24,6 @@ K55 RGB     URB Interrupt Answer: 0e 01 00 00 01 01 00 01 06 30 02 00 1c 1b 3d 1
 Strafe NRGB URB Interrupt Answer: 0e 01 00 00 01 01 00 01 05 02 14 00 1c 1b 15 1b 01 01 01 08 c0 ff 40 01 02 00 00 00 02 44 01 00 <zeroes>
 K68 NRGB    URB Interrupt Answer: 0e 01 00 00 01 01 00 01 00 01 14 00 1c 1b 3f 1b 01 01 01 00 c0 ff 40 02 03 00 00 00 02 44 ff 00 <zeroes>
 K68 RGB     URB Interrupt Answer: 0e 01 00 00 01 01 00 01 02 01 01 00 1c 1b 4f 1b 01 01 00 00 c0 ff 40 00 03 00 00 00 02 00 03 02 <zeroes>
-K70 RGB LUX URB Interrupt Answer: 0e 01 00 00 01 01 00 01 05 02 14 00 1c 1b 33 1b 01 01 01 06 c0 ff 40 00 03 00 00 00 02 44 00 02 <zeroes>
 K65 RGB     URB Interrupt Answer: 0e 01 00 00 01 01 00 01 05 02 11 00 1c 1b 17 1b 01 01 01 06 c0 ff 40 03 03 00 00 00 02 04 00 00 <zeroes>
 K70 RGB MK2 URB Interrupt Answer: 0e 01 00 00 01 01 00 01 12 03 00 03 1c 1b 49 1b 01 01 00 01 c0 ff 40 01 03 00 00 00 02 00 00 02 <zeroes>
 
